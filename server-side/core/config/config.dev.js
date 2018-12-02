@@ -1,12 +1,15 @@
 import path from 'path';
+import ENV from './env';
 
-const config = {};
+console.log({ ENV });
+const Config = {
+    serverPort: ENV.SERVER_PORT || 5000,
+    dbHost: ENV.DB_HOST || 'localhost',
+    dbPassword: ENV.DB_PASSWORD || '',
+    dbUser: ENV.DB_USER || 'root',
+    dbPort: ENV.DB_PORT || '27017',
+    dbName: ENV.DB_NAME || 'graphql-database'
+};
+Config.logFileDir = path.join(__dirname, '../../log');
 
-config.logFileDir = path.join(__dirname, '../../log');
-config.logFileName = 'app.log';
-config.dbHost = process.env.dbHost || 'mongo';
-config.dbPort = process.env.dbPort || '27017';
-config.dbName = process.env.dbName || 'widgets';
-config.serverPort = process.env.serverPort || 8000;
-
-export default config;
+export default Config;
