@@ -25,11 +25,7 @@ const authorSchema = new Schema({
     first: String,
     last: String
   },
-  age: Number,
-  book: [{
-    type: Types.ObjectId,
-    ref: 'Book'
-  }]
+  age: Number
 }, options);
 
 export default authorSchema;

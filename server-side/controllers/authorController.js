@@ -1,21 +1,14 @@
 import { Types } from 'mongoose';
-import Book from '../models/book';
+import { manageError } from './bookController';
+import Author from '../models/author';
 import logger from '../core/logger/app-logger';
 
-
-export const manageError = (response, status, error) => {
-  response
-    .status(400)
-    .json({ error })
-    .end();
-};
-
-export default class bookController {
+export default class authorController {
   static async getAll(request, response) {
     try {
-      const books = await Book.getAll();
-      const toJson = books.map(book => book.toJSON());
-      logger.info('sending all books');
+      const authors = await Author.getAll();
+      const toJson = authors.map(author => author.toJSON());
+      logger.info('sending all authors');
       response.send(toJson);
     } catch (e) {
       logger.error(e.message);
@@ -26,16 +19,16 @@ export default class bookController {
 
   static async add(request, response) {
     try {
-      const { book } = request.body;
-      const bookToStore = Book(book);
-      const err = await bookToStore.validateSync();
+      const { author } = request.body;
+      const authorToStore = Author({ ...author });
+      const err = await authorToStore.validateSync();
       if (err) {
         logger.error(err);
         const { errors } = err;
         manageError(response, 400, errors);
       } else {
-        const newBook = await Book.add(bookToStore);
-        response.status(201).json(newBook.toJSON()).end();
+        const newAuthor = await Author.add(authorToStore);
+        response.status(201).json({ ...newAuthor.toJSON() }).end();
       }
     } catch (e) {
       logger.error(e.message);
@@ -46,17 +39,17 @@ export default class bookController {
 
   static async update(request, response) {
     try {
-      const { book } = request.body;
+      const { author } = request.body;
       const id = Types.ObjectId(request.params.id);
-      const bookToUpdate = Book({ ...book, _id: id });
-      const errors = await bookToUpdate.validateSync();
+      const authorToUpdate = Author({ ...author, _id: id });
+      const errors = await authorToUpdate.validateSync();
       if (errors) {
         const jsonError = errors.toJSON();
         logger.error({ jsonError });
         manageError(response, 400, { ...jsonError });
       } else {
-        await Book.update(id, bookToUpdate);
-        response.status(200).json({ book: bookToUpdate.toJSON() }).end();
+        await Author.update(id, authorToUpdate);
+        response.status(200).json({ author: authorToUpdate.toJSON() }).end();
       }
     } catch (e) {
       logger.error(e);
@@ -66,14 +59,14 @@ export default class bookController {
 
   static async findOne(request, response) {
     const id = Types.ObjectId(request.params.id.toLowerCase());
-    const book = await Book.get(id);
-    response.status(200).json({ book: book.toJSON() }).end();
+    const author = await Author.get(id);
+    response.status(200).json({ author: author.toJSON() }).end();
   }
 
   static async delete(request, response) {
     const id = Types.ObjectId(request.params.id.toLowerCase());
-    await Book.delete(id);
-    response.status(204).set('x-code', 'success.delete.book').end();
+    await Author.delete(id);
+    response.status(204).set('x-code', 'success.delete.author').end();
   }
 
 }

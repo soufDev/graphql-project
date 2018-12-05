@@ -3,17 +3,17 @@
   "passPerPreset": true,
   "presets": [
     [
-      "env",
+      "@babel/preset-env",
       {
         "targets": {
-          "node": "current"
+          "esmodules": true
         }
       }
     ]
   ],
   "plugins": [
-    "syntax-async-functions",
-    "transform-regenerator",
-    "transform-es2015-destructuring",
+    "@babel/plugin-transform-arrow-functions",
+    "@babel/plugin-transform-regenerator",
+    "@babel/plugin-transform-destructuring"
   ]
 }

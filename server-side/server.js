@@ -4,7 +4,8 @@ import cors from 'cors';
 import morgan from 'morgan';
 import logger from './core/logger/app-logger';
 import config from './core/config/config.dev';
-import widget from './routes/widget.route';
+import bookRouter from './routes/book';
+import authorRouter from './routes/author';
 import connectToDb from './db/connect';
 
 const port = config.serverPort;
@@ -23,7 +24,8 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(morgan('dev', { stream: logger.stream }));
 
-app.use('/api/v1', widget);
+app.use('/api/v1', bookRouter);
+app.use('/api/v1', authorRouter);
 
 // Index route
 app.get('/', (req, res) => {
