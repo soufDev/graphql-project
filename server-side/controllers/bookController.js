@@ -16,7 +16,7 @@ export default class bookController {
       const books = await Book.getAll();
       const toJson = books.map(book => book.toJSON());
       logger.info('sending all books');
-      response.send(toJson);
+      response.send({ ...toJson });
     } catch (e) {
       logger.error(e.message);
       const error = e.message;
@@ -27,7 +27,7 @@ export default class bookController {
   static async add(request, response) {
     try {
       const { book } = request.body;
-      const bookToStore = Book(book);
+      const bookToStore = Book({ ...book });
       const err = await bookToStore.validateSync();
       if (err) {
         logger.error(err);
@@ -35,7 +35,7 @@ export default class bookController {
         manageError(response, 400, errors);
       } else {
         const newBook = await Book.add(bookToStore);
-        response.status(201).json(newBook.toJSON()).end();
+        response.status(201).json({ ...newBook.toJSON() }).end();
       }
     } catch (e) {
       logger.error(e.message);
