@@ -1,8 +1,8 @@
-import { Schema, Types } from 'mongoose';
+import { Schema } from 'mongoose';
 
 const transform = (doc, ret) => {
-  const clonedRet = ret.clone();
-  clonedRet.id = clonedRet._id;
+  const clonedRet = { ...ret };
+  clonedRet.id = ret._id;
   delete clonedRet._id;
   delete clonedRet.__v;
   return clonedRet;
@@ -10,6 +10,9 @@ const transform = (doc, ret) => {
 
 export const options = {
   toObject: {
+    virtuals: true,
+    versionKey: false,
+    getters: true,
     transform: (doc, ret) => transform(doc, ret)
   },
   toJSON: {

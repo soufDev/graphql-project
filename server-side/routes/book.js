@@ -11,6 +11,10 @@ router.post('/book', (request, response) => {
   bookController.add(request, response);
 });
 
+router.get('/book/:id', (request, response) => {
+  bookController.findOne(request, response);
+});
+
 router.put('/book/:id', (request, response) => {
   bookController.update(request, response);
 });
