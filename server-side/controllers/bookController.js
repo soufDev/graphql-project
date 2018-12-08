@@ -14,9 +14,8 @@ export default class bookController {
   static async getAll(request, response) {
     try {
       const books = await Book.getAll();
-      const toJson = books.map(book => book.toJSON());
       logger.info('sending all books');
-      response.send({ ...toJson });
+      response.send(books);
     } catch (e) {
       logger.error(e.message);
       const error = e.message;

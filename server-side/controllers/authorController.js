@@ -7,9 +7,8 @@ export default class authorController {
   static async getAll(request, response) {
     try {
       const authors = await Author.getAll();
-      const toJson = authors.map(author => author.toJSON());
       logger.info('sending all authors');
-      response.send(toJson);
+      response.send(authors);
     } catch (e) {
       logger.error(e.message);
       const error = e.message;
