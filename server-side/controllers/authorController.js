@@ -32,8 +32,7 @@ export default class authorController {
       }
     } catch (e) {
       logger.error(e.message);
-      const error = e;
-      manageError(response, 500, error);
+      manageError(response, 500, { error: e });
     }
   }
 
