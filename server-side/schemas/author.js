@@ -1,4 +1,4 @@
-import { Schema } from 'mongoose';
+import { Schema, Types } from 'mongoose';
 
 const transform = (doc, ret) => {
   const clonedRet = { ...ret };
@@ -28,7 +28,8 @@ const authorSchema = new Schema({
     first: String,
     last: String
   },
-  age: Number
+  age: Number,
+  books: [{ type: Schema.Types.ObjectId, ref: 'Book' }]
 }, options);
 
 export default authorSchema;

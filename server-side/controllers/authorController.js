@@ -1,6 +1,7 @@
 import { Types } from 'mongoose';
 import { manageError } from './bookController';
 import Author from '../models/author';
+import Book from '../models/book';
 import logger from '../core/logger/app-logger';
 
 export default class authorController {
@@ -58,7 +59,14 @@ export default class authorController {
   static async findOne(request, response) {
     const id = Types.ObjectId(request.params.id.toLowerCase());
     const author = await Author.get(id);
-    response.status(200).json({ author: author.toJSON() }).end();
+    response.status(200).json(author).end();
+  }
+
+  static async findBooks(request, response) {
+    const id = Types.ObjectId(request.params.id.toLowerCase());
+    const author = await Author.get(id);
+    const books = await Book.find({ _id: { $in: author.books } });
+    response.status(200).json(books).end();
   }
 
   static async delete(request, response) {

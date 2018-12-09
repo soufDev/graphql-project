@@ -15,6 +15,10 @@ router.get('/author/:id', (request, response) => {
   authorController.findOne(request, response);
 });
 
+router.get('/author/:id/books', (request, response) => {
+  authorController.findBooks(request, response);
+});
+
 router.put('/author/:id', (request, response) => {
   authorController.update(request, response);
 });

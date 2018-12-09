@@ -1,13 +1,18 @@
 import mongoose, { Types } from 'mongoose';
 import bookSchema from '../schemas/book';
+import Author from './author';
 
 class Book {
   static getAll() {
     return this.find({});
   }
 
-  static add(book) {
-    return book.save();
+  static async add(book) {
+    const storedBook = await book.save();
+    const author = await Author.findOne({ _id: storedBook.toJSON().author });
+    author.books.push(storedBook.toJSON().id);
+    author.save();
+    return storedBook;
   }
 
   static update(_id, book) {
