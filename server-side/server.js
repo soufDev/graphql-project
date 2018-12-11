@@ -13,7 +13,7 @@ logger.stream = {
   write(message, encoding) {
     logger.info(message);
     logger.info(encoding);
-  },
+  }
 };
 
 connectToDb();
