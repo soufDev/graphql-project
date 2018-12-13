@@ -39,7 +39,7 @@ export default class bookController {
       }
     } catch (e) {
       logger.error(e.message);
-      const error = e;
+      const error = { ...e };
       manageError(response, 500, error);
     }
   }

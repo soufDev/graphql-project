@@ -1,4 +1,4 @@
-import { Schema, Types } from 'mongoose';
+import { Schema } from 'mongoose';
 
 const transform = (doc, ret) => {
   const clonedRet = { ...ret };
