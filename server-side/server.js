@@ -8,6 +8,21 @@ import bookRouter from './routes/book';
 import authorRouter from './routes/author';
 import connectToDb from './db/connect';
 
+// graphql attempt
+import graphqlHTTP from 'express-graphql';
+import { buildSchema } from 'graphql';
+
+const schema = buildSchema(`
+  type User {
+    id: ID
+    name: String
+  }
+  type Query {
+      users: [User]
+  }
+`);
+const root = { users: () => ([{ id: 1, name: 'John Doe' }, { id: 2, name: 'John Doe' }]) };
+
 const port = config.serverPort;
 logger.stream = {
   write(message, encoding) {
@@ -27,6 +42,12 @@ app.use(morgan('dev', { stream: logger.stream }));
 app.use('/api/v1', bookRouter);
 app.use('/api/v1', authorRouter);
 
+// graphql routes
+app.use('/graphql', graphqlHTTP({
+  schema,
+  rootValue: root,
+  graphiql: true
+}));
 // Index route
 app.get('/', (req, res) => {
   res.send({ message: 'hello Soufiane' });

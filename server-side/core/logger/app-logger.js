@@ -1,5 +1,6 @@
 import * as fs from 'fs';
 import * as winston from 'winston';
+import * as rotate from 'winston-daily-rotate-file';
 import Config from '../config/config.dev';
 
 const dir = Config.logFileDir;
