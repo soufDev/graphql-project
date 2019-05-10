@@ -2,15 +2,17 @@ import express from 'express';
 import bodyParser from 'body-parser';
 import cors from 'cors';
 import morgan from 'morgan';
+
+// graphql attempt
+import graphqlHTTP from 'express-graphql';
+import { buildSchema } from 'graphql';
+
 import logger from './core/logger/app-logger';
 import config from './core/config/config.dev';
 import bookRouter from './routes/book';
 import authorRouter from './routes/author';
 import connectToDb from './db/connect';
 
-// graphql attempt
-import graphqlHTTP from 'express-graphql';
-import { buildSchema } from 'graphql';
 
 const schema = buildSchema(`
   type User {
